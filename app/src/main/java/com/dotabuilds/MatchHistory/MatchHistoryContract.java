@@ -14,9 +14,7 @@ public interface MatchHistoryContract {
 
     interface View {
 
-        void setProgressIndicator(boolean active);
-
-        void showMatches(List<Match> notes);
+        void showMatches(List<Match> matches);
 
         void showMatchDetailUi(String matchId);
     }
