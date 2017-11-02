@@ -9,11 +9,13 @@ import com.dotabuilds.util.MatchFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
+import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -33,7 +35,7 @@ public class MatchHistoryPresenterTest {
 
     private MatchHistoryPresenter mMatchHistoryPresenter;
 
-
+    @Captor
     private ArgumentCaptor<List<Match>> mMatchCaptor;
 
     @Before
@@ -48,7 +50,7 @@ public class MatchHistoryPresenterTest {
         mMatchHistoryPresenter.loadMatches(true);
         verify(mMatchRepository).getMatches();
         verify(mMatchHistoryView).showMatches(mMatchCaptor.capture());
-        verify(mMatchCaptor.getValue()).equals(MATCHES);
+        assertEquals(mMatchCaptor.getValue(), MATCHES);
     }
 
 }
