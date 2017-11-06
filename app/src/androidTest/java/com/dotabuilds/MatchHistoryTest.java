@@ -4,6 +4,8 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.dotabuilds.MatchHistory.MatchHistoryActivity;
+
 import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
@@ -36,7 +38,7 @@ public class MatchHistoryTest {
     @Test
     public void enterMatchHistoryActivity_ShouldSeeAListOfMatches(){
         onData(withItemContent("Won"));
-        onView(withId(R.id.KDA)).check(matches(withText("3")));
+        onView(withId(R.id.KDA)).check(matches(withText("3/0/0")));
     }
 
 
