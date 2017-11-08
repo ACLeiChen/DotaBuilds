@@ -10,7 +10,6 @@ public interface MatchRepository {
 
     List<Match> getMatches();
     Match getMatch(String matchId);
-    void saveLatestFiveMatches();
-    void saveMatch();
+    void downloadAndSaveMatch();
     void refreshMatches();
 }

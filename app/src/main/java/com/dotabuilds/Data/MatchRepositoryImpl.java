@@ -26,12 +26,7 @@ public class MatchRepositoryImpl implements MatchRepository {
     }
 
     @Override
-    public void saveLatestFiveMatches() {
-
-    }
-
-    @Override
-    public void saveMatch() {
+    public void downloadAndSaveMatch() {
 
     }
 
