@@ -40,15 +40,15 @@ public class MatchRepositoryImpl implements MatchRepository {
 
     }
 
-    public Match loadMatchByName(Context context, String matchName){
-        Match match = new Gson().fromJson(readJSONFromAsset(context, matchName), Match.class);
+    public Match loadMatchFromJson(String matchName){
+        Match match = new Gson().fromJson(readJSONFromAsset(matchName), Match.class);
         return match;
     }
 
-    private String readJSONFromAsset(Context context, String fileName){
+    private String readJSONFromAsset(String fileName){
         String json = null;
         try {
-            InputStream is = context.getAssets().open(fileName);
+            InputStream is = this.getClass().getClassLoader().getResourceAsStream(fileName);
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);

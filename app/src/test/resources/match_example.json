@@ -3,7 +3,7 @@
   "myHero": {
     "name": "antimage",
     "id": 1,
-    "localized_name": "Anti-Mage"
+    "localizedName": "Anti-Mage"
   },
   "kill": 10,
   "death": 1,
