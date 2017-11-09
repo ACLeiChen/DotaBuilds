@@ -3,6 +3,7 @@ package com.dotabuilds.MatchHistory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,14 @@ public class MatchHistoryFragment extends Fragment implements MatchHistoryContra
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_match_history, container, false);
+        View root = inflater.inflate(R.layout.fragment_matchhistory, container, false);
+
+        // Pull-to-refresh
+        SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.refresh_layout);
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            mUserActionsListener.loadMatches(true);
+        });
 
         return root;
     }
