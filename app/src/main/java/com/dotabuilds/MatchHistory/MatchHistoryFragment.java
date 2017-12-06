@@ -18,9 +18,10 @@ import com.dotabuilds.Data.Match;
 import com.dotabuilds.Data.MatchRepositoryImpl;
 import com.dotabuilds.R;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
+
+import static com.dotabuilds.util.Utility.getDrawableIdByName;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by Lei Chen on 2017/11/6.
@@ -40,7 +41,7 @@ public class MatchHistoryFragment extends Fragment implements MatchHistoryContra
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mListAdapter = new MatchHistoryAdapter(this.getContext(), R.layout.item_matchhistory);
+        mListAdapter = new MatchHistoryAdapter(getActivity(), R.layout.item_matchhistory);
         mUserActionsListener = new MatchHistoryPresenter(this, new MatchRepositoryImpl());
     }
 
@@ -77,7 +78,7 @@ public class MatchHistoryFragment extends Fragment implements MatchHistoryContra
 
     @Override
     public void showMatches(List<Match> matches) {
-
+        mListAdapter.replaceData(matches);
     }
 
     @Override
@@ -87,13 +88,24 @@ public class MatchHistoryFragment extends Fragment implements MatchHistoryContra
 
     private class MatchHistoryAdapter extends ArrayAdapter<Match> {
 
-        private final Context context;
-        private List<Match> matches;
+        private Context context;
+        private List<Match> mMatches;
 
         private class ViewHolder {
             public ImageView heroIcon;
             public TextView isWon;
             public TextView KDA;
+
+            public void inflateViewHolder(Match mMatch){
+                int id = getDrawableIdByName(this.heroIcon.getContext(), mMatch.getMyHero().getName());
+                this.heroIcon.setImageResource(id);
+                if(mMatch.isWon()){
+                    this.isWon.setText(R.string.isWon_true);
+                }else{
+                    this.isWon.setText(R.string.isWon_false);
+                }
+                this.KDA.setText(mMatch.getKDA());
+            }
         }
 
         public MatchHistoryAdapter(@NonNull Context context, int resource) {
@@ -106,7 +118,7 @@ public class MatchHistoryFragment extends Fragment implements MatchHistoryContra
             View rowView = convertView;
             // reuse views
             if (rowView == null) {
-                LayoutInflater inflater = context.getLayoutInflater();
+                LayoutInflater inflater = LayoutInflater.from(context);
                 rowView = inflater.inflate(R.layout.item_matchhistory, null);
                 // configure view holder
                 ViewHolder viewHolder = new ViewHolder();
@@ -120,10 +132,27 @@ public class MatchHistoryFragment extends Fragment implements MatchHistoryContra
 
             // fill data
             ViewHolder holder = (ViewHolder) rowView.getTag();
-
-
+            holder.inflateViewHolder(mMatches.get(position));
             return rowView;
         }
+
+
+
+        public void replaceData(List<Match> matches) {
+            mMatches = checkNotNull(matches);
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public int getCount(){
+            return 5;
+        }
+
+        @Override
+        public Match getItem(int position){
+            return mMatches.get(position);
+        }
+
 
     }
 }

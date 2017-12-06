@@ -1,11 +1,11 @@
 package com.dotabuilds.Data;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.List;
-import android.content.Context;
 
 import com.google.gson.Gson;
+
+import static com.dotabuilds.util.Utility.readJSONFromResources;
 
 /**
  * Created by Lei Chen on 2017/11/2.
@@ -13,11 +13,15 @@ import com.google.gson.Gson;
 
 public class MatchRepositoryImpl implements MatchRepository {
 
-    private List<Match> matches;
+    private List<Match> matches = new LinkedList<>();
+
 
     @Override
     public List<Match> getMatches() {
-        return null;
+        if(matches.isEmpty()){
+            refreshMatches();
+        }
+        return matches;
     }
 
     @Override
@@ -26,33 +30,22 @@ public class MatchRepositoryImpl implements MatchRepository {
     }
 
     @Override
-    public void downloadAndSaveMatch() {
-
-    }
-
-    @Override
     public void refreshMatches() {
+        downloadAndSaveMatches();
+        matches.clear();
+        matches.add(loadMatchFromJson("match1.json"));
+        matches.add(loadMatchFromJson("match2.json"));
+        matches.add(loadMatchFromJson("match3.json"));
+        matches.add(loadMatchFromJson("match4.json"));
+        matches.add(loadMatchFromJson("match5.json"));
+    }
+
+    private void downloadAndSaveMatches() {
 
     }
 
-    public Match loadMatchFromJson(String matchName){
-        Match match = new Gson().fromJson(readJSONFromAsset(matchName), Match.class);
+    private Match loadMatchFromJson(String matchName){
+        Match match = new Gson().fromJson(readJSONFromResources(matchName), Match.class);
         return match;
-    }
-
-    private String readJSONFromAsset(String fileName){
-        String json = null;
-        try {
-            InputStream is = this.getClass().getClassLoader().getResourceAsStream(fileName);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
     }
 }

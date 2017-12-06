@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DotaBuilds</string>
+    <string name="isWon_true">Win</string>
+    <string name="isWon_false">Loss</string>
 </resources>

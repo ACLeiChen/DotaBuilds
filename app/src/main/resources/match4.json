@@ -1,0 +1,56 @@
+﻿{
+  "isWon": true,
+  "myHero": {
+    "name": "shadow_shaman",
+    "id": 27,
+    "localized_name": "Shadow Shaman"
+  },
+  "kill": 10,
+  "death": 4,
+  "assist": 10,
+  "gpm": 550,
+  "items": [
+    {
+      "id": 1005,
+      "name": "mystery_vacuum"
+    },
+    {
+      "id": 1006,
+      "name": "halloween_rapier"
+    },
+    {
+      "id": 1007,
+      "name": "greevil_whistle"
+    },
+    {
+      "id": 1008,
+      "name": "greevil_whistle_toggle"
+    },
+    {
+      "id": 1009,
+      "name": "present"
+    }
+  ],
+  "backPacks": [
+    {
+      "id": 1005,
+      "name": "mystery_vacuum"
+    },
+    {
+      "id": 1006,
+      "name": "halloween_rapier"
+    },
+    {
+      "id": 1007,
+      "name": "greevil_whistle"
+    },
+    {
+      "id": 1008,
+      "name": "greevil_whistle_toggle"
+    },
+    {
+      "id": 1009,
+      "name": "present"
+    }
+  ]
+}

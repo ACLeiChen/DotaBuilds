@@ -81,4 +81,8 @@ public class Match {
     public void setBackPacks(List<Item> backPacks) {
         this.backPacks = backPacks;
     }
+
+    public String getKDA() {
+        return kill + "/" + death + "/" + assist;
+    }
 }

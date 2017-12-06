@@ -10,6 +10,5 @@ public interface MatchRepository {
 
     List<Match> getMatches();
     Match getMatch(String matchId);
-    void downloadAndSaveMatch();
     void refreshMatches();
 }
