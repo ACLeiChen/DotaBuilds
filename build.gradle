@@ -29,7 +29,7 @@ task clean(type: Delete) {
 
 ext {
     // Sdk and tools
-    minSdkVersion = 14
+    minSdkVersion = 16
     targetSdkVersion = 26
     compileSdkVersion = 26
     buildToolsVersion = '26.0.2'
@@ -45,4 +45,5 @@ ext {
     rulesVersion = '1.0.0'
     espressoVersion = '3.0.1'
     gsonVersion = '2.8.2'
+    retrofitVersion = '2.3.0'
 }

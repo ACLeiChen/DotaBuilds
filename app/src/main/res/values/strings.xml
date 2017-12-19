@@ -2,4 +2,6 @@
     <string name="app_name">DotaBuilds</string>
     <string name="isWon_true">Win</string>
     <string name="isWon_false">Loss</string>
+    <string name="baseUrl">http://192.168.178.227:81/api/dotabuilds/</string>
+    <string name="Preference_Name">MyPrefsFile</string>
 </resources>

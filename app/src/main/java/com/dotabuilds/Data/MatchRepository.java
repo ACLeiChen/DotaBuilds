@@ -1,5 +1,7 @@
 package com.dotabuilds.Data;
 
+import android.content.Context;
+
 import java.util.List;
 
 /**
@@ -11,4 +13,6 @@ public interface MatchRepository {
     List<Match> getMatches();
     Match getMatch(String matchId);
     void refreshMatches();
+
+    public void setContext(Context context);
 }
