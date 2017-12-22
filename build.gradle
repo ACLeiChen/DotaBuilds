@@ -46,4 +46,6 @@ ext {
     espressoVersion = '3.0.1'
     gsonVersion = '2.8.2'
     retrofitVersion = '2.3.0'
+    robolectric = '3.6.1'
+    mockwebserver = '3.9.1'
 }
