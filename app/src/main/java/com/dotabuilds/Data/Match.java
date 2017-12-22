@@ -14,6 +14,7 @@ public class Match {
     private int death;
     private int assist;
     private int gpm;
+    private String matchId;
 
     List<Item> items;
     List<Item> backPacks;
@@ -84,5 +85,13 @@ public class Match {
 
     public String getKDA() {
         return kill + "/" + death + "/" + assist;
+    }
+
+    public String getMatchId() {
+        return matchId;
+    }
+
+    public void setMatchId(String matchId) {
+        this.matchId = matchId;
     }
 }
