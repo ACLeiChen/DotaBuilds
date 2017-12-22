@@ -15,14 +15,5 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        setUserIdInSharedPreference();
-    }
-
-    private void setUserIdInSharedPreference(){
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("steamId64", "76561198084404505");
-        editor.putString("steamId32", "124138777");
-        editor.commit();
     }
 }

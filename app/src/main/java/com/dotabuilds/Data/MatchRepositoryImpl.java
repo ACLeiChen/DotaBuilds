@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.dotabuilds.AppParameters;
 import com.dotabuilds.R;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
@@ -35,6 +37,16 @@ import static com.dotabuilds.util.Utility.readJSONFromResources;
 public class MatchRepositoryImpl implements MatchRepository {
 
     private List<Match> matches = new LinkedList<>();
+
+    private AtomicBoolean isDownloadFinished;
+
+    public AtomicBoolean getIsDownloadFinished() {
+        return isDownloadFinished;
+    }
+
+    public void setIsDownloadFinished(AtomicBoolean isDownloadFinished) {
+        this.isDownloadFinished = isDownloadFinished;
+    }
 
     private Context mContext;
 
@@ -68,14 +80,16 @@ public class MatchRepositoryImpl implements MatchRepository {
     }
 
     private void downloadAndSaveMatches() {
+        isDownloadFinished = new AtomicBoolean(false);
+
         Retrofit retrofit1 = new Retrofit.Builder()
-                .baseUrl(mContext.getResources().getString(R.string.baseUrl))
+//                .baseUrl(mContext.getResources().getString(R.string.baseUrl))
+                .baseUrl(AppParameters.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         BackendService service1 = retrofit1.create(BackendService.class);
-        SharedPreferences settings = mContext.getSharedPreferences(PREFS_NAME, 0);
-        String userId = settings.getString("steamId32", "0");
+        String userId = AppParameters.steamId32;
         Call<JsonPrimitive> jsonCall = service1.GetRecentMatchesById(userId);
         Log.i(LOG_TAG, "The URL is: " + service1.GetRecentMatchesById(userId).request().url().toString());
         jsonCall.enqueue(new Callback<JsonPrimitive>() {
@@ -84,17 +98,19 @@ public class MatchRepositoryImpl implements MatchRepository {
                 Log.i(LOG_TAG, response.body().getAsString());
                 File path = mContext.getFilesDir();
                 String temp = response.body().getAsString();
-                File file = new File(path, "latest5Matches.json");
+                File file = new File(path, "RecentMatches.json");
                 try {
                     Files.write(temp, file, Charset.forName("UTF-8"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                isDownloadFinished.set(true);
             }
 
             @Override
             public void onFailure(Call<JsonPrimitive> call, Throwable t) {
                 Log.e(LOG_TAG, t.toString());
+                isDownloadFinished.set(true);
             }
         });
     }
