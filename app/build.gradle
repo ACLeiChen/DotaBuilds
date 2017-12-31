@@ -11,7 +11,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        manifestPlaceholders = ['appAuthRedirectScheme': 'YOURSCHEME']
     }
     buildTypes {
         release {
@@ -32,6 +31,14 @@ android {
                     'src/main/res-common/item_icons',
             ]
         }
+
+        test {
+            java.srcDirs += "$projectDir/src/sharedForTest"
+        }
+
+        androidTest {
+            java.srcDirs += "$projectDir/src/sharedForTest"
+        }
     }
     testOptions {
         unitTests {
@@ -51,8 +58,13 @@ dependencies {
     implementation "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
     api "com.android.support:customtabs:$rootProject.supportLibraryVersion"
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    api "com.squareup.okhttp3:okhttp:$rootProject.ext.okhttpserver"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
     implementation "com.squareup.retrofit2:converter-scalars:$rootProject.retrofitVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxjavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.adapterRxjava2Version"
+    implementation "com.github.omadahealth:swipy:1.2.3@aar"
 
     // Dependencies for local unit tests
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
@@ -66,6 +78,8 @@ dependencies {
     // Android Testing Support Library's runner and rules
     androidTestImplementation "com.android.support.test:runner:$rootProject.ext.runnerVersion"
     androidTestImplementation "com.android.support.test:rules:$rootProject.ext.rulesVersion"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$rootProject.ext.mockwebserver"
+
 
     // Espresso UI Testing dependencies.
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.ext.espressoVersion"

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="60dp"
     android:padding="6dip" >
@@ -16,11 +17,12 @@
         android:id="@+id/isWon"
         android:layout_width="wrap_content"
         android:layout_height="26dip"
-        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:layout_toRightOf="@id/heroIcon"
+        android:paddingLeft="10dp"
         android:text="win / lose"
-        android:textSize="12sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/KDA"
@@ -29,8 +31,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@id/heroIcon"
+        android:paddingLeft="10dp"
         android:text="K / D / A"
-        android:textSize="12sp" />
+        android:textSize="18sp" />
 
 
 </RelativeLayout>

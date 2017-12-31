@@ -1,6 +1,5 @@
 package com.dotabuilds.MatchHistory;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
@@ -29,7 +28,7 @@ public class MatchHistoryPresenter implements MatchHistoryContract.UserActionsLi
     }
 
     @Override
-    public void loadMatches(boolean forceUpdate) {
+    public void loadMatches() {
         matches = mMatchRepository.getMatches();
         mMatchHistoryView.showMatches(matches);
     }

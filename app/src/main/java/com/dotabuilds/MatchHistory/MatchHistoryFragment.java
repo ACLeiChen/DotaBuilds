@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 import com.dotabuilds.Data.Match;
 import com.dotabuilds.Data.MatchRepositoryImpl;
 import com.dotabuilds.R;
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
 import java.util.List;
 
@@ -43,12 +46,13 @@ public class MatchHistoryFragment extends Fragment implements MatchHistoryContra
         super.onCreate(savedInstanceState);
         mListAdapter = new MatchHistoryAdapter(getActivity(), R.layout.item_matchhistory);
         mUserActionsListener = new MatchHistoryPresenter(this, new MatchRepositoryImpl());
+        mUserActionsListener.loadMatches();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mUserActionsListener.loadMatches(false);
+        mUserActionsListener.loadMatches();
     }
 
     @Override
@@ -67,10 +71,23 @@ public class MatchHistoryFragment extends Fragment implements MatchHistoryContra
         listView.setAdapter(mListAdapter);
 
         // Pull-to-refresh
-        SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.refresh_layout);
+//        SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.refresh_layout);
+//
+//        swipeRefreshLayout.setOnRefreshListener(() -> {
+//            mUserActionsListener.loadMatches();
+//            swipeRefreshLayout.setRefreshing(false);
+//        });
 
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            mUserActionsListener.loadMatches(true);
+        SwipyRefreshLayout swipyRefreshLayout = (SwipyRefreshLayout) root.findViewById(R.id.refresh_layout);
+
+        swipyRefreshLayout.setOnRefreshListener((direction) -> {
+            if(direction == SwipyRefreshLayoutDirection.TOP){
+                mUserActionsListener.loadMatches();
+                swipyRefreshLayout.setRefreshing(false);
+            }else if(direction == SwipyRefreshLayoutDirection.BOTTOM){
+                mUserActionsListener.loadMatches();
+                swipyRefreshLayout.setRefreshing(false);
+            }
         });
 
         return root;
@@ -97,12 +114,14 @@ public class MatchHistoryFragment extends Fragment implements MatchHistoryContra
             public TextView KDA;
 
             public void inflateViewHolder(Match mMatch){
-                int id = getDrawableIdByName(this.heroIcon.getContext(), mMatch.getMyHero().getName());
+                int id = getDrawableIdByName(this.heroIcon.getContext(), mMatch.getMyHero().getName().replaceFirst("npc_dota_hero_", ""));
                 this.heroIcon.setImageResource(id);
                 if(mMatch.isWon()){
                     this.isWon.setText(R.string.isWon_true);
+                    this.isWon.setTextColor(ContextCompat.getColor(context, R.color.isWon_Win));
                 }else{
                     this.isWon.setText(R.string.isWon_false);
+                    this.isWon.setTextColor(ContextCompat.getColor(context, R.color.isWon_Loss));
                 }
                 this.KDA.setText(mMatch.getKDA());
             }
@@ -145,7 +164,7 @@ public class MatchHistoryFragment extends Fragment implements MatchHistoryContra
 
         @Override
         public int getCount(){
-            return 5;
+            return mMatches.size();
         }
 
         @Override

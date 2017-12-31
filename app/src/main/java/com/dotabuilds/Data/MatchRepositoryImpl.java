@@ -1,34 +1,36 @@
 package com.dotabuilds.Data;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.dotabuilds.AppParameters;
-import com.dotabuilds.R;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 
-import okhttp3.ResponseBody;
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static com.dotabuilds.MainApplication.LOG_TAG;
-import static com.dotabuilds.MainApplication.PREFS_NAME;
 import static com.dotabuilds.util.Utility.readJSONFromResources;
+import static com.dotabuilds.util.Utility.readJsonToStringFromFilesDir;
 
 /**
  * Created by Lei Chen on 2017/11/2.
@@ -59,6 +61,9 @@ public class MatchRepositoryImpl implements MatchRepository {
     public List<Match> getMatches() {
         if(matches.isEmpty()){
             refreshMatches();
+            while(!isDownloadFinished.get()){
+
+            }
         }
         return matches;
     }
@@ -70,53 +75,43 @@ public class MatchRepositoryImpl implements MatchRepository {
 
     @Override
     public void refreshMatches() {
-        downloadAndSaveMatches();
-        matches.clear();
-        matches.add(loadMatchFromJson("match1.json"));
-        matches.add(loadMatchFromJson("match2.json"));
-        matches.add(loadMatchFromJson("match3.json"));
-        matches.add(loadMatchFromJson("match4.json"));
-        matches.add(loadMatchFromJson("match5.json"));
-    }
-
-    private void downloadAndSaveMatches() {
         isDownloadFinished = new AtomicBoolean(false);
 
         Retrofit retrofit1 = new Retrofit.Builder()
-//                .baseUrl(mContext.getResources().getString(R.string.baseUrl))
                 .baseUrl(AppParameters.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
                 .build();
 
         BackendService service1 = retrofit1.create(BackendService.class);
         String userId = AppParameters.steamId32;
-        Call<JsonPrimitive> jsonCall = service1.GetRecentMatchesById(userId);
-        Log.i(LOG_TAG, "The URL is: " + service1.GetRecentMatchesById(userId).request().url().toString());
-        jsonCall.enqueue(new Callback<JsonPrimitive>() {
-            @Override
-            public void onResponse(Call<JsonPrimitive> call, Response<JsonPrimitive> response) {
-                Log.i(LOG_TAG, response.body().getAsString());
-                File path = mContext.getFilesDir();
-                String temp = response.body().getAsString();
-                File file = new File(path, "RecentMatches.json");
-                try {
-                    Files.write(temp, file, Charset.forName("UTF-8"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                isDownloadFinished.set(true);
-            }
 
-            @Override
-            public void onFailure(Call<JsonPrimitive> call, Throwable t) {
-                Log.e(LOG_TAG, t.toString());
-                isDownloadFinished.set(true);
-            }
-        });
+        Single<Response<JsonArray>> call = service1.GetRecentMatchesByIdRx(userId);
+        call.subscribeOn(Schedulers.io())
+                .subscribe(
+                        myData -> {
+                            writeJsonToFile(myData.body().getAsJsonArray(), "RecentMatches.json");
+                            matches.clear();
+                            matches = loadMatchFromJson("RecentMatches.json");
+                            isDownloadFinished.set(true);
+                        },
+                        throwable -> {
+                            Log.i(LOG_TAG, throwable.getMessage());
+                            isDownloadFinished.set(true);
+                        });
     }
 
-    private Match loadMatchFromJson(String matchName){
-        Match match = new Gson().fromJson(readJSONFromResources(matchName), Match.class);
-        return match;
+    private void writeJsonToFile(JsonElement input, String fileName) throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String temp = gson.toJson(input);
+        File path = mContext.getFilesDir();
+        File file = new File(path, fileName);
+        Files.write(temp, file, Charset.forName("UTF-8"));
+    }
+
+    private List<Match> loadMatchFromJson(String matchName){
+        Type listType = new TypeToken<List<Match>>(){}.getType();
+        List<Match> matches = new Gson().fromJson(readJsonToStringFromFilesDir(matchName, mContext), listType);
+        return matches;
     }
 }

@@ -4,7 +4,7 @@ import com.dotabuilds.Data.Match;
 import com.dotabuilds.Data.MatchRepository;
 import com.dotabuilds.MatchHistory.MatchHistoryContract;
 import com.dotabuilds.MatchHistory.MatchHistoryPresenter;
-import com.dotabuilds.util.MatchFactory;
+import util.MatchFactory;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -47,7 +47,7 @@ public class MatchHistoryPresenterTest {
 
     @Test
     public void loadMatchesShouldGetMatchesFromRepositoryAndLoadIntoView(){
-        mMatchHistoryPresenter.loadMatches(true);
+        mMatchHistoryPresenter.loadMatches();
         verify(mMatchRepository).getMatches();
         verify(mMatchHistoryView).showMatches(mMatchCaptor.capture());
         assertEquals(mMatchCaptor.getValue(), MATCHES);

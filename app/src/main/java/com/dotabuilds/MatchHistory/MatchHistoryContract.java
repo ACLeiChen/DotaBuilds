@@ -21,7 +21,7 @@ public interface MatchHistoryContract {
 
     interface UserActionsListener {
 
-        void loadMatches(boolean forceUpdate);
+        void loadMatches();
 
         void openMatchDetails(@NonNull Match requestedMatch);
     }

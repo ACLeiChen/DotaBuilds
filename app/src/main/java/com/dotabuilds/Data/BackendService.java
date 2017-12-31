@@ -1,8 +1,10 @@
 package com.dotabuilds.Data;
 
-import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonArray;
 
+import io.reactivex.Single;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -13,5 +15,8 @@ import retrofit2.http.Query;
 public interface BackendService {
 
     @GET("GetRecentMatchById")
-    Call<JsonPrimitive> GetRecentMatchesById(@Query("userId") String userId);
+    Call<JsonArray> GetRecentMatchesById(@Query("userId") String userId);
+
+    @GET("GetRecentMatchById")
+    Single<Response<JsonArray>> GetRecentMatchesByIdRx(@Query("userId") String userId);
 }

@@ -8,13 +8,13 @@ import java.util.List;
 
 public class Match {
 
+    private String matchId;
     private boolean isWon;
-    private Hero myHero;
     private int kill;
     private int death;
     private int assist;
     private int gpm;
-    private String matchId;
+    private Hero myHero;
 
     List<Item> items;
     List<Item> backPacks;
