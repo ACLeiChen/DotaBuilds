@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.dotabuilds.Data.Match;
-import com.dotabuilds.MatchHistory.MatchHistoryActivity;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -57,7 +56,7 @@ public class MatchHistoryTest {
     }
 
     @Rule
-    public ActivityTestRule<MatchHistoryActivity> mMatchHistoryActivityTestRule = new ActivityTestRule<MatchHistoryActivity>(MatchHistoryActivity.class){
+    public ActivityTestRule<MainActivity> mMainActivityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class){
         @Override
         protected void beforeActivityLaunched() {
             super.beforeActivityLaunched();
@@ -75,7 +74,7 @@ public class MatchHistoryTest {
     }
 
     @Test
-    public void MatchHistoryActivityShouldShowThreeMatches(){
+    public void MatchHistoryFragmentShouldShowThreeMatches(){
         onView(withId(R.id.match_list)).check(matches(isDisplayed()));
         onView(withId(R.id.match_list)).check(matches(withListSize(3)));
 

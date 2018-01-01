@@ -3,4 +3,7 @@
     <string name="isWon_true">Win</string>
     <string name="isWon_false">Loss</string>
     <string name="Preference_Name">MyPrefsFile</string>
+    <string name="title_history">History</string>
+    <string name="title_comparison">Comparison</string>
+    <string name="title_dashboard">Dashboard</string>
 </resources>

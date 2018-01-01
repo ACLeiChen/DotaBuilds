@@ -4,7 +4,6 @@ package com.dotabuilds;
 import android.content.Context;
 
 import com.dotabuilds.Data.MatchRepositoryImpl;
-import com.dotabuilds.MatchHistory.MatchHistoryActivity;
 import util.BackendMock;
 
 import org.junit.Before;
@@ -34,7 +33,7 @@ public class MatchRepositoryTest {
     @Before
     public void setUpMatchRepository(){
         matchRepository = new MatchRepositoryImpl();
-        mContext = Robolectric.buildActivity(MatchHistoryActivity.class).create().get();
+        mContext = Robolectric.buildActivity(MainActivity.class).create().get();
         matchRepository.setContext(mContext);
     }
 
