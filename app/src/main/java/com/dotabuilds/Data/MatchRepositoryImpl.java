@@ -20,6 +20,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
 import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -87,18 +88,35 @@ public class MatchRepositoryImpl implements MatchRepository {
         String userId = AppParameters.steamId32;
 
         Single<Response<JsonArray>> call = service1.GetRecentMatchesByIdRx(userId);
-        call.subscribeOn(Schedulers.io())
-                .subscribe(
-                        myData -> {
-                            writeJsonToFile(myData.body().getAsJsonArray(), "RecentMatches.json");
-                            matches.clear();
-                            matches = loadMatchFromJson("RecentMatches.json");
-                            isDownloadFinished.set(true);
-                        },
-                        throwable -> {
-                            Log.i(LOG_TAG, throwable.getMessage());
-                            isDownloadFinished.set(true);
-                        });
+        /**
+         call.subscribeOn(Schedulers.io())
+         .subscribe(
+         myData -> {
+         writeJsonToFile(myData.body().getAsJsonArray(), "RecentMatches.json");
+         matches.clear();
+         matches = loadMatchFromJson("RecentMatches.json");
+         isDownloadFinished.set(true);
+         },
+         throwable -> {
+         Log.i(LOG_TAG, throwable.getMessage());
+         isDownloadFinished.set(true);
+         });
+         */
+        call.doOnSuccess(
+                myData -> {
+                    writeJsonToFile(myData.body().getAsJsonArray(), "RecentMatches.json");
+                    matches.clear();
+                    matches = loadMatchFromJson("RecentMatches.json");
+                    System.out.println("doOnSuccess, currentThread is: " + Thread.currentThread());
+                    isDownloadFinished.set(true);
+                })
+                .doOnError(throwable -> {
+                    Log.i(LOG_TAG, throwable.getMessage());
+                    isDownloadFinished.set(true);
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe((myData) -> {System.out.println("subscribe, currentThread is: " + Thread.currentThread());});
     }
 
     private void writeJsonToFile(JsonElement input, String fileName) throws IOException {
