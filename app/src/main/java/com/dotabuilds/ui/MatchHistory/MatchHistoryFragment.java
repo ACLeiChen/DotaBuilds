@@ -1,4 +1,4 @@
-package com.dotabuilds.MatchHistory;
+package com.dotabuilds.ui.MatchHistory;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.dotabuilds.Data.Match;
-import com.dotabuilds.Data.MatchRepositoryImpl;
+import com.dotabuilds.data.Match;
+import com.dotabuilds.data.MatchRepositoryImpl;
 import com.dotabuilds.R;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
@@ -82,15 +81,23 @@ public class MatchHistoryFragment extends Fragment implements MatchHistoryContra
 
         swipyRefreshLayout.setOnRefreshListener((direction) -> {
             if(direction == SwipyRefreshLayoutDirection.TOP){
+                swipyRefreshLayout.setRefreshing(true);
                 mUserActionsListener.loadMatches();
                 swipyRefreshLayout.setRefreshing(false);
             }else if(direction == SwipyRefreshLayoutDirection.BOTTOM){
+                swipyRefreshLayout.setRefreshing(true);
                 mUserActionsListener.loadMatches();
                 swipyRefreshLayout.setRefreshing(false);
             }
         });
 
         return root;
+    }
+
+    @Override
+    public void onStop() {
+        ((MatchHistoryPresenter)mUserActionsListener).clearMatches();
+        super.onStop();
     }
 
     @Override

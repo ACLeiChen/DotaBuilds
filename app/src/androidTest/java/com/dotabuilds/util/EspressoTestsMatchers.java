@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
 
-import com.dotabuilds.Data.Match;
+import com.dotabuilds.data.Match;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;

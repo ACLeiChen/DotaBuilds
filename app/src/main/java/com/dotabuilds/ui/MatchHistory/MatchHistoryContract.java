@@ -1,8 +1,8 @@
-package com.dotabuilds.MatchHistory;
+package com.dotabuilds.ui.MatchHistory;
 
 import android.support.annotation.NonNull;
 
-import com.dotabuilds.Data.Match;
+import com.dotabuilds.data.Match;
 
 import java.util.List;
 

@@ -1,10 +1,9 @@
 package util;
 
-import com.dotabuilds.Data.Hero;
-import com.dotabuilds.Data.Match;
+import com.dotabuilds.data.Hero;
+import com.dotabuilds.data.Match;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonPrimitive;
 
 import java.util.LinkedList;
 import java.util.List;

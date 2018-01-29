@@ -1,9 +1,9 @@
 package com.dotabuilds;
 
-import com.dotabuilds.Data.Match;
-import com.dotabuilds.Data.MatchRepository;
-import com.dotabuilds.MatchHistory.MatchHistoryContract;
-import com.dotabuilds.MatchHistory.MatchHistoryPresenter;
+import com.dotabuilds.data.Match;
+import com.dotabuilds.data.MatchRepository;
+import com.dotabuilds.ui.MatchHistory.MatchHistoryContract;
+import com.dotabuilds.ui.MatchHistory.MatchHistoryPresenter;
 import util.MatchFactory;
 
 import org.junit.Before;

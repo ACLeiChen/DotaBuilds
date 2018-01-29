@@ -1,4 +1,4 @@
-package com.dotabuilds.Data;
+package com.dotabuilds.data;
 
 import android.content.Context;
 import android.util.Log;
@@ -22,15 +22,12 @@ import com.google.gson.reflect.TypeToken;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.dotabuilds.MainApplication.LOG_TAG;
-import static com.dotabuilds.util.Utility.readJSONFromResources;
 import static com.dotabuilds.util.Utility.readJsonToStringFromFilesDir;
 
 /**
@@ -102,12 +99,10 @@ public class MatchRepositoryImpl implements MatchRepository {
          isDownloadFinished.set(true);
          });
          */
-        call.doOnSuccess(
-                myData -> {
+        call.doOnSuccess(myData -> {
                     writeJsonToFile(myData.body().getAsJsonArray(), "RecentMatches.json");
                     matches.clear();
                     matches = loadMatchFromJson("RecentMatches.json");
-                    System.out.println("doOnSuccess, currentThread is: " + Thread.currentThread());
                     isDownloadFinished.set(true);
                 })
                 .doOnError(throwable -> {

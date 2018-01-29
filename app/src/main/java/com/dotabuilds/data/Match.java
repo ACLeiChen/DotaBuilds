@@ -1,4 +1,4 @@
-package com.dotabuilds.Data;
+package com.dotabuilds.data;
 
 import java.util.List;
 

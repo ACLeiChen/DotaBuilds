@@ -1,10 +1,10 @@
-package com.dotabuilds.MatchHistory;
+package com.dotabuilds.ui.MatchHistory;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
-import com.dotabuilds.Data.Match;
-import com.dotabuilds.Data.MatchRepository;
+import com.dotabuilds.data.Match;
+import com.dotabuilds.data.MatchRepository;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class MatchHistoryPresenter implements MatchHistoryContract.UserActionsLi
 
     private final MatchHistoryContract.View mMatchHistoryView;
 
-    private List<Match> matches;
+    public List<Match> matches;
 
     public MatchHistoryPresenter(MatchHistoryContract.View matchHistoryView, MatchRepository matchRepository) {
         mMatchHistoryView = checkNotNull(matchHistoryView, "matchHistory cannot be null!");
@@ -31,6 +31,10 @@ public class MatchHistoryPresenter implements MatchHistoryContract.UserActionsLi
     public void loadMatches() {
         matches = mMatchRepository.getMatches();
         mMatchHistoryView.showMatches(matches);
+    }
+
+    public void clearMatches(){
+        matches.clear();
     }
 
     @Override

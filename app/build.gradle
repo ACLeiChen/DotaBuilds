@@ -66,6 +66,10 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroidVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.adapterRxjava2Version"
     implementation "com.github.omadahealth:swipy:1.2.3@aar"
+    implementation "com.google.dagger:dagger:$rootProject.dagger2Version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger2Version"
+    implementation "com.google.dagger:dagger-android-support:$rootProject.dagger2Version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.dagger2Version"
 
     // Dependencies for local unit tests
     implementation 'com.android.support:design:26.1.0'

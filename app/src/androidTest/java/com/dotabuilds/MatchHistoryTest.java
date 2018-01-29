@@ -6,12 +6,12 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.widget.ListView;
 
-import com.dotabuilds.Data.Match;
+import com.dotabuilds.data.Match;
+import com.dotabuilds.ui.Main.MainActivity;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;

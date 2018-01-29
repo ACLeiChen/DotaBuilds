@@ -1,4 +1,4 @@
-package com.dotabuilds.Data;
+package com.dotabuilds.data;
 
 /**
  * Created by Lei Chen on 2017/12/14.

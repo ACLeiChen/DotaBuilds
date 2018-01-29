@@ -52,4 +52,5 @@ ext {
     robolectric = '3.6.1'
     mockwebserver = '3.9.1'
     okhttpserver = '3.9.1'
+    dagger2Version = '2.14.1'
 }

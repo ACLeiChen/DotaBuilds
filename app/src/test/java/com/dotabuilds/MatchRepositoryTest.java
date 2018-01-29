@@ -3,7 +3,9 @@ package com.dotabuilds;
 
 import android.content.Context;
 
-import com.dotabuilds.Data.MatchRepositoryImpl;
+import com.dotabuilds.data.MatchRepositoryImpl;
+import com.dotabuilds.ui.Main.MainActivity;
+
 import util.BackendMock;
 
 import org.junit.Before;

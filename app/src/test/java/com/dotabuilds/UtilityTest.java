@@ -1,6 +1,6 @@
 package com.dotabuilds;
 
-import com.dotabuilds.Data.Match;
+import com.dotabuilds.data.Match;
 import com.dotabuilds.util.Utility;
 import com.google.gson.Gson;
 

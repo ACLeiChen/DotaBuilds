@@ -4,7 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.design.widget.BottomNavigationView;
 import android.view.Menu;
 
-import com.dotabuilds.MatchHistory.MatchHistoryFragment;
+import com.dotabuilds.ui.Main.MainActivity;
+import com.dotabuilds.ui.MatchHistory.MatchHistoryFragment;
 
 import org.junit.Before;
 import org.junit.Test;
