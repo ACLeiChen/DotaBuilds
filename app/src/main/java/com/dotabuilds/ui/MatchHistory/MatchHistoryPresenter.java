@@ -8,6 +8,8 @@ import com.dotabuilds.data.MatchRepository;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by Lei Chen on 2017/10/26.
@@ -17,14 +19,20 @@ public class MatchHistoryPresenter implements MatchHistoryContract.UserActionsLi
 
     private final MatchRepository mMatchRepository;
 
-    private final MatchHistoryContract.View mMatchHistoryView;
+    private MatchHistoryContract.View mMatchHistoryView;
 
     public List<Match> matches;
 
-    public MatchHistoryPresenter(MatchHistoryContract.View matchHistoryView, MatchRepository matchRepository) {
-        mMatchHistoryView = checkNotNull(matchHistoryView, "matchHistory cannot be null!");
+    @Inject
+    public MatchHistoryPresenter(MatchRepository matchRepository) {
+        //mMatchHistoryView = checkNotNull(matchHistoryView, "matchHistory cannot be null!");
         mMatchRepository = checkNotNull(matchRepository, "matchRepository cannot be null!");
-        matchRepository.setContext(((Fragment)mMatchHistoryView).getActivity());
+        //matchRepository.setContext(((Fragment)mMatchHistoryView).getActivity());
+    }
+
+    @Override
+    public void setView(@NonNull MatchHistoryContract.View matchHistoryView){
+        this.mMatchHistoryView = matchHistoryView;
     }
 
     @Override

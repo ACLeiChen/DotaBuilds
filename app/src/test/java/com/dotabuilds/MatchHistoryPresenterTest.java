@@ -41,7 +41,7 @@ public class MatchHistoryPresenterTest {
     @Before
     public void setUpMatchHistoryPresenter(){
         MockitoAnnotations.initMocks(this);
-        mMatchHistoryPresenter = new MatchHistoryPresenter(mMatchHistoryView, mMatchRepository);
+        mMatchHistoryPresenter = new MatchHistoryPresenter(mMatchRepository);
         when(mMatchRepository.getMatches()).thenReturn(MATCHES);
     }
 

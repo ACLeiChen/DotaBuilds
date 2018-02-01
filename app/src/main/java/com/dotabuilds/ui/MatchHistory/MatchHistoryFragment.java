@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +16,13 @@ import android.widget.TextView;
 import com.dotabuilds.data.Match;
 import com.dotabuilds.data.MatchRepositoryImpl;
 import com.dotabuilds.R;
+import com.dotabuilds.ui.Base.BaseFragment;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import static com.dotabuilds.util.Utility.getDrawableIdByName;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -29,12 +31,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by Lei Chen on 2017/11/6.
  */
 
-public class MatchHistoryFragment extends Fragment implements MatchHistoryContract.View {
+public class MatchHistoryFragment extends BaseFragment implements MatchHistoryContract.View {
 
+    @Inject
+    MatchHistoryContract.UserActionsListener mUserActionsListener;
 
-    private MatchHistoryContract.UserActionsListener mUserActionsListener;
-
-    private MatchHistoryAdapter mListAdapter;
+    //@Inject
+    MatchHistoryAdapter mListAdapter;
 
     public static MatchHistoryFragment newInstance(){
         return new MatchHistoryFragment();
@@ -44,7 +47,8 @@ public class MatchHistoryFragment extends Fragment implements MatchHistoryContra
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mListAdapter = new MatchHistoryAdapter(getActivity(), R.layout.item_matchhistory);
-        mUserActionsListener = new MatchHistoryPresenter(this, new MatchRepositoryImpl());
+        //mUserActionsListener = new MatchHistoryPresenter(this, new MatchRepositoryImpl());
+        mUserActionsListener.setView(this);
         mUserActionsListener.loadMatches();
     }
 

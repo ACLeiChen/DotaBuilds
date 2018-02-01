@@ -19,6 +19,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
+import javax.inject.Inject;
+
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -49,6 +51,11 @@ public class MatchRepositoryImpl implements MatchRepository {
     }
 
     private Context mContext;
+
+    @Inject
+    public MatchRepositoryImpl(Context context){
+        mContext = context;
+    }
 
     @Override
     public void setContext(Context context){

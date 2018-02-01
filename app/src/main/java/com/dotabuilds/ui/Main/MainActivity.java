@@ -6,19 +6,28 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.dotabuilds.R;
+import com.dotabuilds.ui.Base.BaseActivity;
 import com.dotabuilds.ui.MatchHistory.MatchHistoryFragment;
 
-public class MainActivity extends AppCompatActivity {
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
+
+public class MainActivity extends BaseActivity implements HasSupportFragmentInjector {
 
     private static final String SELECTED_MENU_ITEM = "arg_selected_menu_item";
     private BottomNavigationView mBottomNav;
     private int mSelectedMenuItem;
 
     private MatchHistoryFragment matchHistoryFragment;
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentInjector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,4 +95,8 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentInjector;
+    }
 }

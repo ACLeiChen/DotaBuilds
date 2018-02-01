@@ -34,9 +34,9 @@ public class MatchRepositoryTest {
 
     @Before
     public void setUpMatchRepository(){
-        matchRepository = new MatchRepositoryImpl();
+
         mContext = Robolectric.buildActivity(MainActivity.class).create().get();
-        matchRepository.setContext(mContext);
+        matchRepository = new MatchRepositoryImpl(mContext);
     }
 
     @Test
